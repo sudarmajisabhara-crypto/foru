@@ -171,27 +171,25 @@
         autocomplete="off"
       />
       <br />
-      <button onclick="showBirthday()">Kirim</button>
+      <button onclick="sendToWA()">Kirim</button>
       <div class="result" id="result"></div>
     </div>
     <script>
-      function showBirthday() {
+      function sendToWA() {
         const input = document.getElementById("birthday").value.trim();
         const result = document.getElementById("result");
         if (!input) {
           result.textContent = "Yuk isi dulu tanggal ulang tahun kamu 😊";
           return;
         }
-        // Coba parsing tanggal dari input
         let tanggal = "";
-        let regexTanggal = /^(\d{1,2})\s*([A-Za-z]+)$/; // "12 Mei"
-        let regexAngka = /^(\d{1,2})[-\/](\d{1,2})$/; // "12-05" atau "12/05"
+        let regexTanggal = /^(\d{1,2})\s*([A-Za-z]+)$/;
+        let regexAngka = /^(\d{1,2})[-\/](\d{1,2})$/; 
         if (regexTanggal.test(input)) {
           let match = input.match(regexTanggal);
           tanggal = `${match[1]} ${match[2]}`;
         } else if (regexAngka.test(input)) {
           let match = input.match(regexAngka);
-          // Konversi angka bulan ke nama bulan
           const bulanArr = [
             "Januari",
             "Februari",
@@ -215,7 +213,14 @@
         } else {
           tanggal = input;
         }
-        result.innerHTML = `Wah, ulang tahun kamu tanggal <b>${tanggal}</b>!<br>Siap-siap dapat kejutan spesial ya 🎉✨`;
+        // Ganti nomor di bawah dengan nomor WhatsApp kamu (format: 628xxxxxxxxxx)
+        const nomorWA = "6285838239904";
+        const pesan = encodeURIComponent(
+          `Hai, aku ulang tahun tanggal ${tanggal} 🎉`
+        );
+        const waLink = `https://wa.me/${nomorWA}?text=${pesan}`;
+        window.open(waLink, "_blank");
+        result.innerHTML = `Tanggal kamu sudah dikirim ke WhatsApp! 🎉`;
       }
     </script>
   </body>
